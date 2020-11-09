@@ -23,15 +23,30 @@ const App = () => {
       return false;
     }
   }
-  const failMessage = () => {
+  const failMessage = (message) => {
     let formMess = document.querySelector('.form-message');
-    formMess.innerHTML = 'Merci de remplir correctement les champs requis *';
+    formMess.innerHTML = message;
     formMess.style.opacity = '1';
     formMess.style.background = 'rgb(253,87,87)';
 
     document.getElementById('name').classList.add('error');
     document.getElementById('email').classList.add('error');
     document.getElementById('message').classList.add('error');
+  }
+
+  const successMessage = () => {
+    let formMess = document.querySelector('.form-message');
+    formMess.innerHTML = 'Message envoyé !';
+    formMess.style.background = '#00C1EC';
+    formMess.style.opacity ='1';
+
+    document.getElementById('name').classList.remove('error');
+    document.getElementById('email').classList.remove('error');
+    document.getElementById('message').classList.remove('error');
+
+    setTimeout(() => {
+      formMess.style.opacity= '0';
+    }, 5000);
   }
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -46,7 +61,7 @@ const App = () => {
       });
     } else {
       console.log('erroor')
-      failMessage();
+      failMessage("Merci de remplir correctement les champs requis *");
     }
   };
 
@@ -55,6 +70,7 @@ const App = () => {
     window.emailjs.send("service_yt1tv3x", templateId, variables)
       .then((res) => {
         console.log('success !');
+        successMessage();
         setName("");
         setCompany("");
         setPhone("");
@@ -63,8 +79,7 @@ const App = () => {
       })
       .catch(
         (err) =>
-          document.querySelector('.form-message').innerHTML =
-          "Une erreur s'est produite, veuillez réessayer.")
+        failMessage("Une erreur s'est produite, veuillez réessayer."))
   };
 
   return (
