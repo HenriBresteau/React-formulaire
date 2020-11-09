@@ -23,7 +23,16 @@ const App = () => {
       return false;
     }
   }
+  const failMessage = () => {
+    let formMess = document.querySelector('.form-message');
+    formMess.innerHTML = 'Merci de remplir correctement les champs requis *';
+    formMess.style.opacity = '1';
+    formMess.style.background = 'rgb(253,87,87)';
 
+    document.getElementById('name').classList.add('error');
+    document.getElementById('email').classList.add('error');
+    document.getElementById('message').classList.add('error');
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -37,6 +46,7 @@ const App = () => {
       });
     } else {
       console.log('erroor')
+      failMessage();
     }
   };
 
